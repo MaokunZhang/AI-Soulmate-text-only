@@ -1,0 +1,66 @@
+version: '3.8'
+
+services:
+  # Local NSFW Model Router Application
+  nsfw-router:
+    build: .
+    container_name: local-nsfw-router
+    ports:
+      - "8501:8501"
+    environment:
+      # Load environment variables from .env file
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
+      - AZURE_OPENAI_API_KEY=${AZURE_OPENAI_API_KEY:-}
+      - AZURE_OPENAI_ENDPOINT=${AZURE_OPENAI_ENDPOINT:-}
+      - XAI_API_KEY=${XAI_API_KEY:-}
+      - MONGO_URI=${MONGO_URI:-mongodb://mongodb:27017/}
+    volumes:
+      # Mount models directory for persistent storage
+      - ./models:/app/models
+      # Mount .env file if it exists
+      - ./.env:/app/.env:ro
+    depends_on:
+      - mongodb
+    restart: unless-stopped
+    networks:
+      - nsfw-network
+
+  # MongoDB for conversation memory (optional)
+  mongodb:
+    image: mongo:7
+    container_name: nsfw-mongodb
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGO_INITDB_DATABASE=ai_girlfriend
+    volumes:
+      - mongo-data:/data/db
+    restart: unless-stopped
+    networks:
+      - nsfw-network
+
+  # LiteLLM Proxy (optional - for multi-model routing)
+  # Uncomment if you want to use LiteLLM for cloud model integration
+  # litellm:
+  #   image: ghcr.io/berriai/litellm:main-latest
+  #   container_name: litellm-proxy
+  #   ports:
+  #     - "4000:4000"
+  #   environment:
+  #     - OPENAI_API_KEY=${OPENAI_API_KEY:-}
+  #     - AZURE_OPENAI_API_KEY=${AZURE_OPENAI_API_KEY:-}
+  #     - XAI_API_KEY=${XAI_API_KEY:-}
+  #   volumes:
+  #     - ./litellm_config.yaml:/app/config.yaml:ro
+  #   command: ["--config", "/app/config.yaml", "--port", "4000"]
+  #   restart: unless-stopped
+  #   networks:
+  #     - nsfw-network
+
+volumes:
+  mongo-data:
+    driver: local
+
+networks:
+  nsfw-network:
+    driver: bridge

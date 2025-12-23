@@ -1,2 +1,6 @@
 nexaai
 streamlit_modal
+openai
+pymongo
+python-dotenv
+pyttsx3

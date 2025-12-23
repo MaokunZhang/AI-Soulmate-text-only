@@ -1,0 +1,132 @@
+# LiteLLM Configuration Example
+# Copy this file to litellm_config.yaml and configure with your API keys
+# NEVER commit litellm_config.yaml with real API keys!
+
+model_list:
+  # Local models via Nexa SDK or Ollama
+  # Note: Ensure your local model server is running on localhost:8080
+  - model_name: llama3-local
+    litellm_params:
+      model: openai/llama3-uncensored  # Use openai/ prefix for OpenAI-compatible endpoints
+      api_base: http://localhost:8080/v1
+      api_key: dummy  # Not required for local models
+    model_info:
+      mode: local
+      supports_nsfw: true
+
+  # OpenAI models (requires OPENAI_API_KEY environment variable)
+  - model_name: gpt-4
+    litellm_params:
+      model: gpt-4
+      api_key: os.environ/OPENAI_API_KEY
+    model_info:
+      mode: cloud
+      supports_nsfw: false
+
+  # Azure OpenAI (requires AZURE_OPENAI_API_KEY and endpoint)
+  - model_name: gpt-4-azure
+    litellm_params:
+      model: azure/gpt-4
+      api_key: os.environ/AZURE_OPENAI_API_KEY
+      api_base: os.environ/AZURE_OPENAI_ENDPOINT
+      api_version: "2024-02-01"
+    model_info:
+      mode: cloud
+      supports_nsfw: false
+
+  # xAI Grok (requires XAI_API_KEY environment variable)
+  - model_name: grok-beta
+    litellm_params:
+      model: grok-beta
+      api_key: os.environ/XAI_API_KEY
+      api_base: https://api.x.ai/v1
+    model_info:
+      mode: cloud
+      supports_nsfw: true
+
+  # Anthropic Claude (requires ANTHROPIC_API_KEY)
+  - model_name: claude-3-opus
+    litellm_params:
+      model: claude-3-opus-20240229
+      api_key: os.environ/ANTHROPIC_API_KEY
+    model_info:
+      mode: cloud
+      supports_nsfw: false
+
+# Router configuration
+router_settings:
+  # Routing strategy: simple-shuffle, latency-based-routing, or usage-based-routing
+  routing_strategy: simple-shuffle
+  
+  # Enable automatic fallbacks
+  enable_fallbacks: true
+  
+  # Fallback models in order of preference
+  fallback_models:
+    - llama3-local  # Always fallback to local first
+    - gpt-4
+    - claude-3-opus
+
+# General settings
+general_settings:
+  # Master key for API authentication (optional)
+  # master_key: "your-secret-key-here"
+  
+  # Enable request/response logging (disable in production)
+  # litellm_log: true
+  
+  # Database for logging (optional)
+  # database_url: "postgresql://user:password@localhost:5432/litellm"
+  
+  # Enable caching
+  cache: true
+  cache_params:
+    type: redis
+    host: localhost
+    port: 6379
+    
+  # Rate limiting
+  # rpm: 60  # requests per minute
+  # tpm: 1000000  # tokens per minute
+
+# Success callback for monitoring (optional)
+# litellm_settings:
+#   success_callback: ["langfuse"]
+#   failure_callback: ["sentry"]
+
+# Model-specific settings
+model_settings:
+  # Default generation parameters
+  default_params:
+    temperature: 0.7
+    max_tokens: 2048
+    top_p: 0.9
+    frequency_penalty: 0
+    presence_penalty: 0
+  
+  # Override for specific models
+  gpt-4:
+    temperature: 0.8
+    max_tokens: 4096
+  
+  llama3-local:
+    temperature: 0.7
+    max_tokens: 2048
+    top_k: 40
+
+# Content filtering (optional)
+# content_policy:
+#   prompt_safety_checks: true
+#   output_safety_checks: false  # Set to true for production
+#   providers: ["openai"]
+
+# Logging configuration
+litellm_log:
+  # Set to true to see detailed logs
+  verbose: false
+  
+  # Log file location
+  # log_file: "litellm.log"
+  
+  # Don't log sensitive data
+  redact_user_api_key_info: true

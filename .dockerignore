@@ -1,0 +1,82 @@
+# Git
+.git
+.gitignore
+.github
+
+# Environment files (add via environment variables instead)
+.env
+.env.*
+!.env.example
+
+# Secrets and credentials
+*.key
+*.pem
+*.pfx
+*.p12
+secrets/
+credentials/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+venv/
+ENV/
+env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Documentation (not needed in container)
+*.md
+!README.md
+
+# Docker files
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# Model files (mount as volumes instead)
+models/
+*.gguf
+*.safetensors
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# Logs
+*.log
+logs/
+
+# Uploaded files
+uploaded_avatar.png
+
+# Config examples
+*.example

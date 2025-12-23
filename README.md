@@ -11,6 +11,13 @@ Key features include:
 * Built in model switcher
 * Selection of uncensored language models at [Nexa Model Hub](https://nexa.ai/models?tasks=Uncensored) with RAM and disk size suggestions
 
+## Quick Start
+
+**For the fastest setup**, see [QUICK_START.md](QUICK_START.md) or run:
+```bash
+./setup.sh
+```
+
 ## Installation
 
 ### Prerequisites
@@ -62,5 +69,46 @@ Follow the on-screen instructions to start chatting with the default model or sw
 - [NexaAI Model Hub](https://nexaai.com/models)
 - [Nexa-SDK GitHub Repository](https://github.com/NexaAI/nexa-sdk)
 
+## Additional Documentation
+
+### Getting Started
+- **[QUICK_START.md](QUICK_START.md)** - 🚀 Get running in 5 minutes
+
+### Security & Deployment
+- **[SECURITY_ADVISORY.md](SECURITY_ADVISORY.md)** - ⚠️ Critical security information and best practices
+- **[DEPLOYMENT_GUIDE.md](DEPLOYMENT_GUIDE.md)** - Comprehensive deployment options (local, cloud, Docker)
+- **[WEB_DEPLOYMENT.md](WEB_DEPLOYMENT.md)** - Web service deployment with security and authentication
+- **[CLOUD_SETUP_SUMMARY.md](CLOUD_SETUP_SUMMARY.md)** - Cloud integration guide and architecture overview
+
+### Features
+- **[AI_GIRLFRIEND_README.md](AI_GIRLFRIEND_README.md)** - AI girlfriend chatbot specific features
+
+### Quick Setup
+
+Use the automated setup script:
+```bash
+./setup.sh
+```
+
+Or follow the manual installation steps above.
+
+### Docker Deployment
+
+For containerized deployment:
+```bash
+# Quick start with Docker Compose
+docker-compose up -d
+
+# View logs
+docker-compose logs -f
+
+# Stop services
+docker-compose down
+```
+
+See [DEPLOYMENT_GUIDE.md](DEPLOYMENT_GUIDE.md) for detailed Docker setup instructions.
+
 ## Disclaimer
 This project is intended for adult users and contains NSFW content. Use responsibly and in accordance with local laws and regulations.
+
+**Security Notice**: Never commit API keys or credentials to version control. Always use environment variables and proper secrets management. See [SECURITY_ADVISORY.md](SECURITY_ADVISORY.md) for details.
